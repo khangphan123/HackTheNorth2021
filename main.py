@@ -14,11 +14,9 @@ import os
 app = Flask(__name__)
 
 
-@app.route("/")
-def hello_world():
-    return "Helloo, I hope that we can submit this project by the end of the hackathon"
 
-@app.route("/home/", methods=['GET', 'POST'])
+
+@app.route("/", methods=['GET', 'POST'])
 def home():
     # use buttons to redirect users to login or create user page
     if request.method == 'POST':
@@ -30,7 +28,7 @@ def home():
         pass
     return render_template('home.html')
 
-@app.route("/login/")
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
 
