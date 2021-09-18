@@ -1,0 +1,20 @@
+body {
+  background: bisque;
+}
+
+.container {
+  width: 1000px;
+  margin: auto;
+  text-align: center;
+}
+
+.container h1 {
+  text-align: center;
+  margin-bottom: 200px;
+}
+
+.container button {
+  padding: 10px;
+  background: aquamarine;
+  margin: 0 10px;
+}

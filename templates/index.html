@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>FlaskBlog</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/home.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to Our App</h1>
+      <h2>Get Started Below</h2>
+      <button id="login" class="float-left submit-button">Login</button>
+      <button id="register" class="float-left submit-button">Sign Up</button>
+    </div>
+  </body>
+
+  <!-- SIGN UP BUTTON -->
+  <script type="text/javascript">
+    document.getElementById("register").onclick = function () {
+      location.href = "/register";
+    };
+    document.getElementById("login").onclick = function () {
+      location.href = "/login";
+    };
+  </script>
+</html>
