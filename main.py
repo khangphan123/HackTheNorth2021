@@ -20,11 +20,6 @@ app = Flask(__name__)
 def home():
     # use buttons to redirect users to login or create user page
     if request.method == 'POST':
-        if request.form['Log In'] == 'login':
-            pass # todo: if login button clicked take user to login page
-        elif request.form['Create Account'] == 'createuser':
-            pass # todo: if create account button pressed take user to register page
-    elif request.method == 'GET':
         pass
     return render_template('home.html')
 
@@ -32,7 +27,7 @@ def home():
 def login():
     return render_template('login.html')
 
-@app.route("/register/")
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     return render_template('register.html')
 
