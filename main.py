@@ -18,19 +18,24 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    # use buttons to redirect users to login or create user page
-    if request.method == 'POST':
-        pass
     return render_template('home.html')
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    return "render_template('login.html')"
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    return "'render_template('register.html')'"
 
+@app.route("/dashboard")
+def profile():
+    return render_template("dashboard.html")
+
+@app.route("/request")
+def request():
+    return "ji"
+    
 
 if __name__ == "__main__":
     app.run(debug = True)
