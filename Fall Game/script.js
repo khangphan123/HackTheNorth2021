@@ -1,93 +1,167 @@
-var character = document.getElementById("character");
-var game = document.getElementById("game");
-var interval;
-var both = 0
-var counter = 0;
-var currentBlocks = [];
-
-function moveLeft() {
-    var left = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
-    character.style.left = left - 2 + "px";
+let canvas = document.getElementById("canvas-top");
+let ctx = canvas.getContext("2d");
+let gameState = {
+  rectPosX: 10,
+  rectPosY: canvas.height / 2 - 10,
+  rectVelocity: { x: 0, y: 0 },
+  playerSpeed: 0.5,
+  enemyTimeout: 60,
+  enemyTimeoutInit: 60,
+  enemySpeed: 1,
+  enemies: [],
+  friends: [],
+  friendAdded:false,
+  score: 0
+};
+function random(n) {
+  return Math.floor(Math.random() * n);
 }
-
-function moveLeft() {
-    var left = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
-    character.style.left = left + 2 + "px";
+class RectCollider {
+  constructor(x, y, width, height) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+  isColliding(rectCollider) {
+    if (
+      this.x < rectCollider.x + rectCollider.width &&
+      this.x + this.width > rectCollider.x &&
+      this.y < rectCollider.y + rectCollider.height &&
+      this.height + this.y > rectCollider.y
+    ) {
+      return true;
+    }
+    return false;
+  }
 }
+function checkCollision(gameState) {
+  let playerCollider = new RectCollider(
+    gameState.rectPosX,
+    gameState.rectPosY,
+    10,
+    10
+  );
+  for (let i = 0; i < gameState.enemies.length; ++i) {
+    let enemyCollider = new RectCollider(
+      gameState.enemies[i].x,
+      gameState.enemies[i].y,
+      10,
+      10
+    );
+    if (playerCollider.isColliding(enemyCollider)) {
+      return true;
+    }
+  }
+  for (let i = 0; i < gameState.friends.length; ++i) {
+    let friendCollider = new RectCollider(
+      gameState.friends[i].x,
+      gameState.friends[i].y,
+      5,
+      5
+    );
+    if (playerCollider.isColliding(friendCollider)) {
+      gameState.playerSpeed*=1.05;
+      gameState.friends.splice(i, 1);
+    }
+  }
+}
+function update() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  gameState.enemyTimeout -= 1;
+  if (gameState.enemyTimeout == 0) {
+    gameState.enemyTimeout = Math.floor(gameState.enemyTimeoutInit);
+    gameState.enemies.push({
+      x: canvas.width,
+      y: random(canvas.height),
+      velocity: gameState.enemySpeed
+    });
+    gameState.enemySpeed *= 1.001;
+    gameState.enemyTimeoutInit = gameState.enemyTimeoutInit * 0.999;
+    console.log('timeout:'+gameState.enemyTimeoutInit);
+    console.log('speed:'+gameState.enemySpeed);
+  }
+  ctx.fillStyle = "#FF0000";
+  gameState.rectPosX += gameState.rectVelocity.x;
+  gameState.rectPosY += gameState.rectVelocity.y;
+  if (gameState.rectPosX > canvas.width - 10) {
+    gameState.rectPosX = canvas.width - 10;
+    gameState.rectVelocity.x = 0;
+  }
+  if (gameState.rectPosX < 0) {
+    gameState.rectPosX = 0;
+    gameState.rectVelocity.x = 0;
+  }
+  if (gameState.rectPosY < 0) {
+    gameState.rectPosY = 0;
+    gameState.rectVelocity.y = 0;
+  }
+  if (gameState.rectPosY > canvas.height - 10) {
+    gameState.rectPosY = canvas.height - 10;
+    gameState.rectVelocity.y = 0;
+  }
+  ctx.fillRect(gameState.rectPosX, gameState.rectPosY, 10, 10);
+  ctx.fillStyle = "#0000FF";
+  for (let i = 0; i < gameState.enemies.length; ++i) {
+    gameState.enemies[i].x -= gameState.enemies[i].velocity;
+    ctx.fillRect(gameState.enemies[i].x, gameState.enemies[i].y, 10, 10);
+  }
+  for (let i = 0; i < gameState.enemies.length; ++i) {
+    if (gameState.enemies[i].x < -10) {
+      gameState.enemies.splice(i, 1);
+      gameState.score++;
+    }
+  }
+  document.getElementById("score").innerHTML = "score: " + gameState.score;
+  if(gameState.score%10 == 0 && gameState.friendAdded == false){
+    gameState.friends.push({
+      x: random(canvas.width-20),
+      y: random(canvas.height-20),
+    });
+    gameState.friendAdded = true;
+  }
+  if(gameState.score%10 == 1 && gameState.friendAdded == true){
+    gameState.friendAdded = false;
+  }
+  for (let i = 0; i < gameState.friends.length; ++i) {
+    ctx.fillStyle = "#FF0000";
+    ctx.fillRect(gameState.friends[i].x, gameState.friends[i].y, 5, 5);
+  }
+  if(checkCollision(gameState)==true){
+    gameState = {
+  rectPosX: 10,
+  rectPosY: canvas.height / 2 - 10,
+  rectVelocity: { x: 0, y: 0 },
+  playerSpeed: 0.5,
+  enemyTimeout: 60,
+  enemyTimeoutInit: 60,
+  enemySpeed: 1,
+  enemies: [],
+  friends: [],
+  friendAdded:false,
+  score: 0
+};
+  }
+}
+setInterval(update, 20);
+document.addEventListener("keydown", function(event) {
+  if (event.keyCode == 39) {
+    //right arrow
+    gameState.rectVelocity.x = gameState.playerSpeed;
+  }
+  if (event.keyCode == 37) {
+    //left arrow
+    gameState.rectVelocity.x = -gameState.playerSpeed;
+  }
+  if (event.keyCode == 40) {
+    //up arrow
+    gameState.rectVelocity.y = gameState.playerSpeed;
+  }
+  if (event.keyCode == 38) {
+    //down arrow
+    gameState.rectVelocity.y = -gameState.playerSpeed;
+  }
+});
 
-document.addEventListener("Keydown", event => {
-    if(both==0){
-        both++;
-        if(event.key=="ArrowLeft"){
-            interval = setInterval(moveLeft, 1);
-        }
-        if(event.key=="ArrowRight"){
-            interval = setInterval(moveRight, 1);
-        }
-    }
-})
 
-document.addEventListener("keyup", evvent => {
-    clearInterval(interval);
-    both=0;
-})
 
-var blocks = setInterval(function(){
-    var blockLast = document.getElementById("block"+(counter-1));
-    var holeLast = document.getElementById("hole"+(counter-1));
-    if(counter>0){
-        var blockLastTop = parseInt(window.getComputedStyle(blockLast).getPropertyValue("top"));
-        var holeLastTop = parseInt(window.getComputedStyle(holeLast).getPropertyValue("top"));
-    }
-    if(blockLastTop<400||counter==0){
-        var block = document.createElement("div");
-        var hole = document.createElement("div");
-        block.setAttribute("class", "block");
-        hole.setAttribute("class", "hole");
-        block.setAttribute("id", "block"+counter);
-        hole.setAttribute("id", "hole"+counter);
-        block.style.top = blockLastTop + 100 + "px";
-        hole.style.top = holeLastTop + 100 + "px";
-        var random = Math.floor(Math.random() * 360);
-        hole.style.left = random + "px";
-        game.appendChild(block);
-        game.appendChild(hole);
-        currentBlocks.push(counter);
-        counter++;
-    }
-    var characterTop = parseInt(window.getComputedStyle(character).getPropertyValue("top"));
-    var characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue("left"));
-    var drop = 0;
-    if(characterTop <= 0){
-        alert("Game over. Score: "+(counter-9));
-        clearInterval(blocks);
-        location.reload();
-    }
-    for(var i = 0; i < currentBlocks.length;i++){
-        let current = currentBlocks[i];
-        let iblock = document.getElementById("block"+current);
-        let ihole = document.getElementById("hole"+current);
-        let iblockTop = parseFloat(window.getComputedStyle(iblock).getPropertyValue("top"));
-        let iholeLeft = parseFloat(window.getComputedStyle(ihole).getPropertyValue("left"));
-        iblock.style.top = iblockTop - 0.5 + "px";
-        ihole.style.top = iblockTop - 0.5 + "px";
-        if(iblockTop < -20){
-            currentBlocks.shift();
-            iblock.remove();
-            ihole.remove();
-        }
-        if(iblockTop-20<characterTop && iblockTop>characterTop){
-            drop++;
-            if(iholeLeft<=characterLeft && iholeLeft+20>=characterLeft){
-                drop = 0;
-            }
-        }
-    }
-    if(drop==0){
-        if(characterTop < 480){
-            character.style.top = characterTop + 2 + "px";
-        }
-    }else{
-        character.style.top = characterTop - 0.5 + "px";
-    }
-},1);
