@@ -21,13 +21,13 @@ let curTetromino = [
 
 let tetrominos = [];
 let tetrominoColors = [
-  "purple",
-  "cyan",
-  "blue",
-  "yellow",
-  "orange",
-  "green",
   "red",
+  "green",
+  "blue",
+  "orange",
+  "purple",
+  "violet",
+  "grey",
 ];
 let curTetrominoColor;
 
