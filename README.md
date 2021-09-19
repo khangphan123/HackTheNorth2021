@@ -11,6 +11,6 @@ Tetris Game:
 ------------
 Citation for Tetris Game: http://www.newthinktank.com/2019/06/tetris-game-design/
 
-Tetris Game:
+Shooter Game:
 ------------
 Citation: Kubowania, https://github.com/kubowania/space-invaders
