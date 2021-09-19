@@ -1,0 +1,47 @@
+body {
+  background: #88dcf1;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 50px 0;
+}
+
+.container .title {
+  margin-bottom: 50px;
+}
+
+.container .title h1 {
+  text-align: center;
+}
+
+.container .card {
+  background: #ffe0d4;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+}
+
+.container .card .game_name {
+  height: 150px;
+  padding: 30px 0;
+}
+
+.container .card h2 {
+  text-align: center;
+}
+
+.container .card button {
+  width: 150px;
+  padding: 20px;
+  margin: auto;
+}
+
+.container .bottom {
+  margin-top: 30px;
+}
+
+.container .bottom .card {
+  margin: auto;
+}

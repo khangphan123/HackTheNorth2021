@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Game Collection</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row title">
+        <div class="col-md-12">
+          <h1>Game Arcade</h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="row game_name">
+              <div class="col-md-12">
+                <h2>Tetris</h2>
+              </div>
+            </div>
+            <button type="button" id="tetris" class="btn btn-outline-primary">
+              Play Game!
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="row game_name">
+              <div class="col-md-12">
+                <h2>Shooter Game</h2>
+              </div>
+            </div>
+            <button type="button" id="shooter" class="btn btn-outline-primary">
+              Play Game!
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row bottom">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="row game_name">
+              <div class="col-md-12">
+                <h2>2D Break Out</h2>
+              </div>
+            </div>
+            <button
+              type="button"
+              id="break_out"
+              class="btn btn-outline-primary"
+            >
+              Play Game!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      document.getElementById("tetris").onclick = function () {
+        location.href = "tetris/tetris.html";
+      };
+      document.getElementById("shooter").onclick = function () {
+        location.href = "Shooter-Game/shooter.html";
+      };
+      document.getElementById("break_out").onclick = function () {
+        location.href = "2D-Break-Out-Game/game.html";
+      };
+    </script>
+
+    <!-- Separate Popper and Bootstrap JS -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+      integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+      integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
